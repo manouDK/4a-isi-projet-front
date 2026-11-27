@@ -55,5 +55,17 @@ Tant que les routes du back ne sont pas prêtes, le front utilise des données f
 
 ## Structure du dépôt
 
-*À compléter au fur et à mesure du développement.*
+4a-isi-projet-front/
+├── index.html           catalogue public (menus et produits)
+├── css/
+│   └── style.css        style commun à toutes les pages
+├── js/
+│   ├── api.js           seul fichier qui appelle le back (+ données fictives)
+│   ├── auth.js          session : token, utilisateur connecté, rôle
+│   └── pages/
+│       └── index.js     affichage du catalogue
+├── .gitattributes       fins de ligne LF
+└── README.md
+```
 
+Chaque page `xxx.html` a son propre script `js/pages/xxx.js`. Les pages de connexion, de commande et d'administration seront ajoutées au fur et à mesure.
