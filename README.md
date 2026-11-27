@@ -55,6 +55,7 @@ Tant que les routes du back ne sont pas prêtes, le front utilise des données f
 
 ## Structure du dépôt
 
+```
 4a-isi-projet-front/
 ├── index.html           catalogue public (menus et produits)
 ├── css/
