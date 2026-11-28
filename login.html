@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pol-eat-heck - Connexion</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/api.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    <script src="js/pages/login.js" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <a href="index.html" class="logo">Pol-eat-heck</a>
+
+        <nav aria-label="Navigation principale">
+            <ul class="nav-links">
+                <li><a href="index.html">Catalogue</a></li>
+                <li data-role="guest"><a href="login.html" aria-current="page">Connexion</a></li>
+                <li data-role="guest"><a href="register.html">Créer un compte</a></li>
+                <li data-role="logged" hidden><a href="order.html">Commander</a></li>
+                <li data-role="logged" hidden><a href="my-orders.html">Mes commandes</a></li>
+                <li data-role="logged" hidden><a href="account.html">Mon compte</a></li>
+                <li data-role="admin" hidden><a href="admin-products.html">Produits</a></li>
+                <li data-role="admin" hidden><a href="admin-menus.html">Menus</a></li>
+                <li data-role="admin" hidden><a href="admin-closures.html">Fermetures</a></li>
+                <li data-role="admin" hidden><a href="admin-users.html">Comptes</a></li>
+                <li data-role="logged" hidden><button type="button" id="logout-button" class="nav-button">Déconnexion</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Connexion</h1>
+
+        <form id="login-form" class="form">
+            <div class="form-field">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="username" name="username" autocomplete="username" required>
+            </div>
+
+            <div class="form-field">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" autocomplete="current-password" required>
+            </div>
+
+            <p id="login-status" class="status" role="status"></p>
+
+            <button type="submit" class="button">Se connecter</button>
+        </form>
+
+        <p>Pas encore de compte ? <a href="register.html">Créer un compte</a></p>
+    </main>
+
+    <footer class="site-footer">
+        <p>Pol-eat-heck · commande à l'avance, paiement sur place</p>
+    </footer>
+</body>
+</html>
