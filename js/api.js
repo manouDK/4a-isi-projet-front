@@ -39,12 +39,24 @@ const MOCK_MENUS = [
     }
 ];
 
-// Point de passage unique vers le back : toutes les erreurs sont traitées ici, une seule fois.
-async function request(path) {
-    let response;
+// Point de passage unique vers le back : token, JSON et erreurs sont gérés ici, une seule fois.
+// options = { method: "POST", body: {...} } ; par défaut, une requête GET sans corps.
+async function request(path, options = {}) {
+    const headers = { "Content-Type": "application/json" };
 
+    // getToken() vient de auth.js : il est défini au moment où request() est appelée
+    const token = getToken();
+    if (token !== null) {
+        headers["Authorization"] = "Bearer " + token;
+    }
+
+    let response;
     try {
-        response = await fetch(API_BASE_URL + path);
+        response = await fetch(API_BASE_URL + path, {
+            method: options.method || "GET",
+            headers: headers,
+            body: options.body === undefined ? undefined : JSON.stringify(options.body)
+        });
     } catch (networkError) {
         // fetch n'échoue que si le serveur est injoignable (pas pour un code 404 ou 500)
         throw new Error("Impossible de contacter le serveur. Réessayez plus tard.");
@@ -57,6 +69,10 @@ async function request(path) {
         throw new Error(hasDetail ? body.detail : "Erreur du serveur (code " + response.status + ").");
     }
 
+    // 204 = succès sans contenu (ex. suppression) : il n'y a pas de JSON à lire
+    if (response.status === 204) {
+        return null;
+    }
     return await response.json();
 }
 
@@ -78,4 +94,38 @@ async function getMenus() {
         return MOCK_MENUS;
     }
     return await request("/menus");
+}
+
+// Comptes fictifs pour tester les 3 cas : utilisateur, compte bloqué, administrateur.
+// Ce ne sont que des données de test : elles disparaîtront avec USE_MOCK = false.
+const MOCK_USERS = [
+    { username: "alice", password: "alice123", role: "user", blocked: false },
+    { username: "bob", password: "bob123", role: "user", blocked: true },
+    { username: "admin", password: "admin123", role: "admin", blocked: false }
+];
+
+// Imite les réponses du back : 401 si identifiants faux, 403 si compte bloqué.
+function mockLogin(username, password) {
+    const user = MOCK_USERS.find((candidate) =>
+        candidate.username === username && candidate.password === password
+    );
+
+    if (user === undefined) {
+        throw new Error("Nom d'utilisateur ou mot de passe incorrect.");
+    }
+    if (user.blocked) {
+        throw new Error("Ce compte est bloqué. Contactez un administrateur.");
+    }
+    return { token: "mock-token-" + user.username, user: { username: user.username, role: user.role } };
+}
+
+// Route proposée POST /api/auth/login : à confirmer dans docs/API.md
+async function loginUser(username, password) {
+    if (USE_MOCK) {
+        return mockLogin(username, password);
+    }
+    return await request("/auth/login", {
+        method: "POST",
+        body: { username: username, password: password }
+    });
 }
