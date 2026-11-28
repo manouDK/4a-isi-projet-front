@@ -209,3 +209,70 @@ h3 {
         padding: var(--space) calc(var(--space) * 2);
     }
 }
+
+/* Bouton de déconnexion : même apparence que les liens du menu */
+.nav-button {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid #ffffff;
+    border-radius: var(--radius);
+    background-color: transparent;
+    color: #ffffff;
+    font: inherit;
+    cursor: pointer;
+}
+
+.nav-button:hover,
+.nav-button:focus-visible {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Formulaires */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space);
+    max-width: 380px; /* un formulaire trop large est pénible à lire */
+    padding: var(--space);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background-color: var(--color-surface);
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.form-field label {
+    font-weight: bold;
+}
+
+.form-field input {
+    padding: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font: inherit;
+}
+
+.form-field input:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+}
+
+.button {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: var(--radius);
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Bouton désactivé pendant l'envoi : évite un double clic */
+.button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
